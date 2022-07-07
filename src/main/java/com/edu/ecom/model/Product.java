@@ -1,5 +1,6 @@
 package com.edu.ecom.model;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.RequiredArgsConstructor;
@@ -27,6 +28,7 @@ public class Product {
 
     //Many to one
     @ManyToOne
+    @JsonIgnore
     @JoinColumn(name = "category_id")
     Category category;
 }
