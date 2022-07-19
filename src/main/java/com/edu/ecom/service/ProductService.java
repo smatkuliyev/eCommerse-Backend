@@ -1,6 +1,7 @@
 package com.edu.ecom.service;
 
 import com.edu.ecom.dto.ProductDto;
+import com.edu.ecom.exceptions.ProductNotExistsException;
 import com.edu.ecom.model.Category;
 import com.edu.ecom.model.Product;
 import com.edu.ecom.repository.ProductRepository;
@@ -50,7 +51,7 @@ public class ProductService {
 
     public void updateProduct(ProductDto productDto, Integer productId) throws Exception {
         Optional<Product> optionalProduct = productRepository.findById(productId);
-        if (!optionalProduct.isPresent()){
+        if (!optionalProduct.isPresent()) {
             throw new Exception("product not present");
         }
         Product product = optionalProduct.get();
@@ -59,5 +60,13 @@ public class ProductService {
         product.setName(productDto.getName());
         product.setPrice(productDto.getPrice());
         productRepository.save(product);
+    }
+
+    public Product findById(Integer productId) throws ProductNotExistsException {
+        Optional<Product> optionalProduct = productRepository.findById(productId);
+        if (optionalProduct.isEmpty()) {
+            throw new ProductNotExistsException("product id is invalid: " + productId);
+        }
+        return optionalProduct.get();
     }
 }

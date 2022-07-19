@@ -21,11 +21,11 @@ public class Cart {
     private Date createdDate;
 
     @ManyToOne
-    @Column(name = "product_id")
+    //@Column(name = "product_id")
     private Product product;
 
     @ManyToOne
-    @Column(name = "user_id")
+    //@Column(name = "user_id")
     private User user;
 
     private int quantity;
