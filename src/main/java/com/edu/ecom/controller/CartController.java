@@ -2,6 +2,7 @@ package com.edu.ecom.controller;
 
 import com.edu.ecom.common.ApiResponse;
 import com.edu.ecom.dto.cart.AddToCartDto;
+import com.edu.ecom.dto.cart.CartDto;
 import com.edu.ecom.model.Product;
 import com.edu.ecom.model.User;
 import com.edu.ecom.service.AuthenticationService;
@@ -25,14 +26,18 @@ public class CartController {
     @PostMapping("/add")
     public ResponseEntity<ApiResponse> addToCart(@RequestBody AddToCartDto addToCartDto,
                                                  @RequestParam("token") String token) {
-
         authenticationService.authenticate(token);
         User user = authenticationService.getUser(token);
-
         cartService.addToCart(addToCartDto, user);
-
         return new ResponseEntity<>(new ApiResponse(true, "Added to cart"), HttpStatus.CREATED);
     }
 
+    @GetMapping("/")
+    public ResponseEntity<CartDto> getCartItems(@RequestParam("token") String token) {
+        authenticationService.authenticate(token);
+        User user = authenticationService.getUser(token);
+        CartDto cartDto = cartService.listCartItems(user);
+        return new ResponseEntity<>(cartDto, HttpStatus.OK);
+    }
 
 }
